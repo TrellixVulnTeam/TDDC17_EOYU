@@ -13,16 +13,20 @@ AGENT_DIRECTION_EAST = 1
 AGENT_DIRECTION_SOUTH = 2
 AGENT_DIRECTION_WEST = 3
 
+
 def direction_to_string(cdr):
     cdr %= 4
-    return  "NORTH" if cdr == AGENT_DIRECTION_NORTH else\
-            "EAST"  if cdr == AGENT_DIRECTION_EAST else\
-            "SOUTH" if cdr == AGENT_DIRECTION_SOUTH else\
-            "WEST" #if dir == AGENT_DIRECTION_WEST
+    return "NORTH" if cdr == AGENT_DIRECTION_NORTH else \
+        "EAST" if cdr == AGENT_DIRECTION_EAST else \
+            "SOUTH" if cdr == AGENT_DIRECTION_SOUTH else \
+                "WEST"  # if dir == AGENT_DIRECTION_WEST
+
 
 """
 Internal state of a vacuum agent
 """
+
+
 class MyAgentState:
 
     def __init__(self, width, height):
@@ -44,6 +48,7 @@ class MyAgentState:
     """
     Update perceived agent location
     """
+
     def update_position(self, bump):
         if not bump and self.last_action == ACTION_FORWARD:
             if self.direction == AGENT_DIRECTION_EAST:
@@ -58,12 +63,14 @@ class MyAgentState:
     """
     Update perceived or inferred information about a part of the world
     """
+
     def update_world(self, x, y, info):
         self.world[x][y] = info
 
     """
     Dumps a map of the world as the agent knows it
     """
+
     def print_world_debug(self):
         for y in range(self.world_height):
             for x in range(self.world_width):
@@ -78,18 +85,21 @@ class MyAgentState:
                 elif self.world[x][y] == AGENT_STATE_HOME:
                     print("H" if DEBUG_OPT_DENSEWORLDMAP else " H ", end="")
 
-            print() # Newline
-        print() # Delimiter post-print
+            print()  # Newline
+        print()  # Delimiter post-print
+
 
 """
 Vacuum agent
 """
+
+
 class MyVacuumAgent(Agent):
 
     def __init__(self, world_width, world_height, log):
         super().__init__(self.execute)
         self.initial_random_actions = 10
-        self.iteration_counter = 10
+        self.iteration_counter = 1000
         self.state = MyAgentState(world_width, world_height)
         self.log = log
 
@@ -99,15 +109,15 @@ class MyVacuumAgent(Agent):
         self.initial_random_actions -= 1
         self.state.update_position(bump)
 
-        if action < 0.1666666:   # 1/6 chance
+        if action < 0.1666666:  # 1/6 chance
             self.state.direction = (self.state.direction + 3) % 4
             self.state.last_action = ACTION_TURN_LEFT
             return ACTION_TURN_LEFT
-        elif action < 0.3333333: # 1/6 chance
+        elif action < 0.3333333:  # 1/6 chance
             self.state.direction = (self.state.direction + 1) % 4
             self.state.last_action = ACTION_TURN_RIGHT
             return ACTION_TURN_RIGHT
-        else:                    # 4/6 chance
+        else:  # 4/6 chance
             self.state.last_action = ACTION_FORWARD
             return ACTION_FORWARD
 
@@ -134,7 +144,6 @@ class MyVacuumAgent(Agent):
             self.log("Processing percepts after position randomization")
             return ACTION_SUCK
 
-
         ########################
         # START MODIFYING HERE #
         ########################
@@ -149,7 +158,6 @@ class MyVacuumAgent(Agent):
 
         self.log("Position: ({}, {})\t\tDirection: {}".format(self.state.pos_x, self.state.pos_y,
                                                               direction_to_string(self.state.direction)))
-
         self.iteration_counter -= 1
 
         # Track position of agent
@@ -171,14 +179,142 @@ class MyVacuumAgent(Agent):
         # Debug
         self.state.print_world_debug()
 
+        actionQueue = []
+        toVisitQueue = []
+        visited = []
+        currentNode = (self.state.pos_x, self.state.pos_y)
+
+        if (currentNode) not in visited:
+            visited.append(currentNode)
+            toVisitQueue.append(currentNode)
+            startNode = currentNode
+
         # Decide action
+
         if dirt:
             self.log("DIRT -> choosing SUCK action!")
             self.state.last_action = ACTION_SUCK
             return ACTION_SUCK
+
         elif bump:
-            self.state.last_action = ACTION_NOP
-            return ACTION_NOP
+
+            self.state.last_action = ACTION_TURN_RIGHT
+            self.update_direction()
+
+            return ACTION_TURN_RIGHT
+
         else:
-            self.state.last_action = ACTION_FORWARD
-            return ACTION_FORWARD
+            if actionQueue:
+                self.state.last_action = actionQueue[0]
+                return actionQueue.pop(0)
+
+            currentNode = toVisitQueue.pop(0)
+
+            for node in self.adjacentNodes(currentNode):
+                if node not in visited:
+                    toVisitQueue.append(node)
+                    visited.append(node)
+
+    def pathFinder(self, goal, childParentDic):
+        path = [goal]
+        parent = childParentDic.get(goal)
+        while parent is not None:
+            path.append(parent)
+            goal = parent
+            parent = childParentDic.get(goal)
+        path.pop(len(path) - 1)
+        return path
+
+    # Find unknown nodes
+    def breadthFirstSearch(self):
+        childParentDic = {}
+        frontier = []
+        currentNode = (self.state.pos_x, self.state.pos_y)
+        frontier.add(currentNode)
+        childParentDic.update(currentNode, None)
+        while frontier is not None:
+            parent = frontier.pop(0)
+            if self.state.world[parent[0]][parent[1]]:
+                return self.pathFinder(parent, childParentDic)
+            adjacentNodes = self.adjacentNodes(currentNode)
+            for node in adjacentNodes:
+                childParentDic.update(node, parent)
+                frontier.append(node)
+        return None
+
+    def moveNorth(self):
+        actionQueue = []
+        if self.state.direction == 0:
+            actionQueue.append(ACTION_FORWARD)
+        elif self.state.direction == 1:
+            actionQueue.append(ACTION_TURN_LEFT)
+            actionQueue.append(ACTION_FORWARD)
+        elif self.state.direction == 2:
+            actionQueue.append(ACTION_TURN_LEFT)
+            actionQueue.append(ACTION_TURN_LEFT)
+            actionQueue.append(ACTION_FORWARD)
+        else:
+            actionQueue.append(ACTION_TURN_RIGHT)
+            actionQueue.append(ACTION_FORWARD)
+        return actionQueue
+
+    def moveEast(self):
+        actionQueue = []
+        if self.state.direction == 0:
+            actionQueue.append(ACTION_TURN_RIGHT)
+            actionQueue.append(ACTION_FORWARD)
+        elif self.state.direction == 1:
+            actionQueue.append(ACTION_FORWARD)
+        elif self.state.direction == 2:
+            actionQueue.append(ACTION_TURN_LEFT)
+            actionQueue.append(ACTION_FORWARD)
+        else:
+            actionQueue.append(ACTION_TURN_RIGHT)
+            actionQueue.append(ACTION_TURN_RIGHT)
+            actionQueue.append(ACTION_FORWARD)
+        return actionQueue
+
+    def moveSouth(self):
+        actionQueue = []
+        if self.state.direction == 0:
+            actionQueue.append(ACTION_TURN_RIGHT)
+            actionQueue.append(ACTION_TURN_RIGHT)
+            actionQueue.append(ACTION_FORWARD)
+        elif self.state.direction == 1:
+            actionQueue.append(ACTION_TURN_RIGHT)
+            actionQueue.append(ACTION_FORWARD)
+        elif self.state.direction == 2:
+            actionQueue.append(ACTION_FORWARD)
+        else:
+            actionQueue.append(ACTION_TURN_LEFT)
+            actionQueue.append(ACTION_FORWARD)
+        return actionQueue
+
+    def moveWest(self):
+        actionQueue = []
+        if self.state.direction == 0:
+            actionQueue.append(ACTION_TURN_LEFT)
+            actionQueue.append(ACTION_FORWARD)
+        elif self.state.direction == 1:
+            actionQueue.append(ACTION_TURN_LEFT)
+            actionQueue.append(ACTION_TURN_LEFT)
+            actionQueue.append(ACTION_FORWARD)
+        elif self.state.direction == 2:
+            actionQueue.append(ACTION_TURN_RIGHT)
+            actionQueue.append(ACTION_FORWARD)
+        else:
+            actionQueue.append(ACTION_FORWARD)
+        return actionQueue
+
+    def adjacentNodes(self, currentNode):
+        x = currentNode[0]
+        y = currentNode[1]
+        adjacentNodes = [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]
+        return adjacentNodes
+
+    def update_direction(self):
+        # Update Direction when turning
+        if self.state.direction == 3:
+            self.state.direction = 0
+        else:
+            self.state.direction += 1
