@@ -181,13 +181,13 @@ class MyVacuumAgent(Agent):
 
         actionQueue = []
         toVisitQueue = []
-        visited = []
-        currentNode = (self.state.pos_x, self.state.pos_y)
-
-        if (currentNode) not in visited:
-            visited.append(currentNode)
-            toVisitQueue.append(currentNode)
-            startNode = currentNode
+        # visited = []
+        # currentNode = (self.state.pos_x, self.state.pos_y)
+        #
+        # if (currentNode) not in visited:
+        #     visited.append(currentNode)
+        #     toVisitQueue.append(currentNode)
+        #     startNode = currentNode
 
         # Decide action
 
@@ -196,24 +196,23 @@ class MyVacuumAgent(Agent):
             self.state.last_action = ACTION_SUCK
             return ACTION_SUCK
 
-        elif bump:
-
-            self.state.last_action = ACTION_TURN_RIGHT
-            self.update_direction()
-
-            return ACTION_TURN_RIGHT
-
         else:
             if actionQueue:
-                self.state.last_action = actionQueue[0]
                 return actionQueue.pop(0)
+            else:
+                #Kolla om visitQueue tom? siåfall fyll och annars besök?
+                toVisitQueue = self.breadthFirstSearch()
 
-            currentNode = toVisitQueue.pop(0)
+            # if actionQueue:
+            #     self.state.last_action = actionQueue[0]
+            #     return actionQueue.pop(0)
 
-            for node in self.adjacentNodes(currentNode):
-                if node not in visited:
-                    toVisitQueue.append(node)
-                    visited.append(node)
+            # currentNode = toVisitQueue.pop(0)
+            #
+            # for node in self.adjacentNodes(currentNode):
+            #     if node not in visited:
+            #         toVisitQueue.append(node)
+            #         visited.append(node)
 
     def pathFinder(self, goal, childParentDic):
         path = [goal]
@@ -230,8 +229,8 @@ class MyVacuumAgent(Agent):
         childParentDic = {}
         frontier = []
         currentNode = (self.state.pos_x, self.state.pos_y)
-        frontier.add(currentNode)
-        childParentDic.update(currentNode, None)
+        frontier.append(currentNode)
+        childParentDic[currentNode] = None
         while frontier is not None:
             parent = frontier.pop(0)
             if self.state.world[parent[0]][parent[1]]:
