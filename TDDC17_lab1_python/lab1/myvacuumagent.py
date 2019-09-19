@@ -195,9 +195,9 @@ class MyVacuumAgent(Agent):
                     return ACTION_NOP
 
             if not actionQueue:
-                self.pathtoaction(path)
+                self.pathtoaction(self.path)
 
-            if actionQueue:
+            if len(actionQueue) >= 1:
                 self.state.last_action = actionQueue[0]
                 if actionQueue[0] is ACTION_TURN_LEFT:
                     (self.state.direction + 3) % 4
@@ -205,6 +205,8 @@ class MyVacuumAgent(Agent):
                     (self.state.direction + 1) % 4
                 return actionQueue.pop(0)
 
+            else:
+                return ACTION_NOP
 
     def pathFinder(self, goal, childParentDic):
         path = [goal]
@@ -226,16 +228,15 @@ class MyVacuumAgent(Agent):
 
         while frontier is not None:
             parent = frontier.pop(0)
-            if self.state.world[parent[0]][parent[1]]:
+            if self.state.world[parent[0]][parent[1]] is AGENT_STATE_UNKNOWN: #Troligvis fel här någonstans
                 return self.pathFinder(parent, childParentDic)
             adjacentNodes = self.adjacentNodes(currentNode)
 
             for node in adjacentNodes:
-                childParentDic.update(node, parent)
+                childParentDic[node] = parent
                 frontier.append(node)
 
         return None
-
 
     def moveNorth(self):
         actionQueue = []
@@ -316,18 +317,18 @@ class MyVacuumAgent(Agent):
 
     def pathtoaction(self, path):
 
-        nextstep = path.pop(len(path)-1)
-        if nextstep.x > self.state.pos_x:
-            self.moveEast();
+        nextStep = path[0]
+        nextStepX = nextStep[0]
+        nextStepY = nextStep[1]
 
-        if nextstep.y > self.state.pos_y:
-            self.moveSouth();
+        if nextStepX > self.state.pos_x:
+            return self.moveEast()
 
-        if nextstep.x < self.state.pos_x:
-            self.moveWest();
+        elif nextStepY > self.state.pos_y:
+            return self.moveSouth()
 
-        if nextstep.y < self.state.pos_y:
-            self.moveNorth();
+        elif nextStepX < self.state.pos_x:
+            return self.moveWest()
 
-
-
+        elif nextStepY < self.state.pos_y:
+            return self.moveNorth()
