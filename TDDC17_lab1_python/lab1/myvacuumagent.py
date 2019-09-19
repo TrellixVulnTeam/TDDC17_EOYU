@@ -180,16 +180,7 @@ class MyVacuumAgent(Agent):
         self.state.print_world_debug()
 
         actionQueue = []
-        toVisitQueue = []
-        # visited = []
-        # currentNode = (self.state.pos_x, self.state.pos_y)
-        #
-        # if (currentNode) not in visited:
-        #     visited.append(currentNode)
-        #     toVisitQueue.append(currentNode)
-        #     startNode = currentNode
-
-        # Decide action
+        path = []
 
         if dirt:
             self.log("DIRT -> choosing SUCK action!")
@@ -197,22 +188,23 @@ class MyVacuumAgent(Agent):
             return ACTION_SUCK
 
         else:
+
+            if not actionQueue and not path:
+                self.path = self.breadthFirstSearch()
+                if path is None:
+                    return ACTION_NOP
+
+            if not actionQueue:
+                self.pathtoaction(path)
+
             if actionQueue:
+                self.state.last_action = actionQueue[0]
+                if actionQueue[0] is ACTION_TURN_LEFT:
+                    (self.state.direction + 3) % 4
+                elif actionQueue[0] is ACTION_TURN_RIGHT:
+                    (self.state.direction + 1) % 4
                 return actionQueue.pop(0)
-            else:
-                #Kolla om visitQueue tom? siåfall fyll och annars besök?
-                toVisitQueue = self.breadthFirstSearch()
 
-            # if actionQueue:
-            #     self.state.last_action = actionQueue[0]
-            #     return actionQueue.pop(0)
-
-            # currentNode = toVisitQueue.pop(0)
-            #
-            # for node in self.adjacentNodes(currentNode):
-            #     if node not in visited:
-            #         toVisitQueue.append(node)
-            #         visited.append(node)
 
     def pathFinder(self, goal, childParentDic):
         path = [goal]
@@ -231,15 +223,19 @@ class MyVacuumAgent(Agent):
         currentNode = (self.state.pos_x, self.state.pos_y)
         frontier.append(currentNode)
         childParentDic[currentNode] = None
+
         while frontier is not None:
             parent = frontier.pop(0)
             if self.state.world[parent[0]][parent[1]]:
                 return self.pathFinder(parent, childParentDic)
             adjacentNodes = self.adjacentNodes(currentNode)
+
             for node in adjacentNodes:
                 childParentDic.update(node, parent)
                 frontier.append(node)
+
         return None
+
 
     def moveNorth(self):
         actionQueue = []
@@ -317,3 +313,21 @@ class MyVacuumAgent(Agent):
             self.state.direction = 0
         else:
             self.state.direction += 1
+
+    def pathtoaction(self, path):
+
+        nextstep = path.pop(len(path)-1)
+        if nextstep.x > self.state.pos_x:
+            self.moveEast();
+
+        if nextstep.y > self.state.pos_y:
+            self.moveSouth();
+
+        if nextstep.x < self.state.pos_x:
+            self.moveWest();
+
+        if nextstep.y < self.state.pos_y:
+            self.moveNorth();
+
+
+
