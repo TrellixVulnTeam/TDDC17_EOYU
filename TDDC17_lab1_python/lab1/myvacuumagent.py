@@ -102,6 +102,9 @@ class MyVacuumAgent(Agent):
         self.iteration_counter = 1000
         self.state = MyAgentState(world_width, world_height)
         self.log = log
+        self.actionQueue = []
+        self.path = []
+
 
     def move_to_random_start_position(self, bump):
         action = random()
@@ -179,8 +182,6 @@ class MyVacuumAgent(Agent):
         # Debug
         self.state.print_world_debug()
 
-        actionQueue = []
-        path = []
 
         if dirt:
             self.log("DIRT -> choosing SUCK action!")
@@ -189,34 +190,33 @@ class MyVacuumAgent(Agent):
 
         else:
 
-            if not actionQueue and not path:
-                self.path = self.breadthFirstSearch()
-                if path is None:
+            if not self.actionQueue and not self.path:
+                self.breadthFirstSearch()
+                if self.path is None:
                     return ACTION_NOP
 
-            if not actionQueue:
-                self.pathtoaction(self.path)
+            if not self.actionQueue:
+               self.pathtoaction()
 
-            if len(actionQueue) >= 1:
-                self.state.last_action = actionQueue[0]
-                if actionQueue[0] is ACTION_TURN_LEFT:
-                    (self.state.direction + 3) % 4
-                elif actionQueue[0] is ACTION_TURN_RIGHT:
-                    (self.state.direction + 1) % 4
-                return actionQueue.pop(0)
+            if self.actionQueue:
+                self.state.last_action = self.actionQueue[0]
+                if self.actionQueue[0] is ACTION_TURN_LEFT:
+                    self.state.direction = (self.state.direction + 3) % 4
+                elif self.actionQueue[0] is ACTION_TURN_RIGHT:
+                    self.state.direction = (self.state.direction + 1) % 4
+                return self.actionQueue.pop(0)
 
             else:
                 return ACTION_NOP
 
     def pathFinder(self, goal, childParentDic):
-        path = [goal]
+        self.path = [goal]
         parent = childParentDic.get(goal)
         while parent is not None:
-            path.append(parent)
+            self.path.append(parent)
             goal = parent
             parent = childParentDic.get(goal)
-        path.pop(len(path) - 1)
-        return path
+        self.path.pop(len(self.path) - 1)
 
     # Find unknown nodes
     def breadthFirstSearch(self):
@@ -233,74 +233,68 @@ class MyVacuumAgent(Agent):
             adjacentNodes = self.adjacentNodes(currentNode)
 
             for node in adjacentNodes:
-                childParentDic[node] = parent
-                frontier.append(node)
+                if node not in childParentDic.keys():
+                    childParentDic[node] = parent
+                    frontier.append(node)
 
         return None
 
     def moveNorth(self):
-        actionQueue = []
         if self.state.direction == 0:
-            actionQueue.append(ACTION_FORWARD)
+            self.actionQueue.append(ACTION_FORWARD)
         elif self.state.direction == 1:
-            actionQueue.append(ACTION_TURN_LEFT)
-            actionQueue.append(ACTION_FORWARD)
+            self.actionQueue.append(ACTION_TURN_LEFT)
+            self.actionQueue.append(ACTION_FORWARD)
         elif self.state.direction == 2:
-            actionQueue.append(ACTION_TURN_LEFT)
-            actionQueue.append(ACTION_TURN_LEFT)
-            actionQueue.append(ACTION_FORWARD)
+            self.actionQueue.append(ACTION_TURN_LEFT)
+            self.actionQueue.append(ACTION_TURN_LEFT)
+            self.actionQueue.append(ACTION_FORWARD)
         else:
-            actionQueue.append(ACTION_TURN_RIGHT)
-            actionQueue.append(ACTION_FORWARD)
-        return actionQueue
+            self.actionQueue.append(ACTION_TURN_RIGHT)
+            self.actionQueue.append(ACTION_FORWARD)
 
     def moveEast(self):
-        actionQueue = []
         if self.state.direction == 0:
-            actionQueue.append(ACTION_TURN_RIGHT)
-            actionQueue.append(ACTION_FORWARD)
+            self.actionQueue.append(ACTION_TURN_RIGHT)
+            self.actionQueue.append(ACTION_FORWARD)
         elif self.state.direction == 1:
-            actionQueue.append(ACTION_FORWARD)
+            self.actionQueue.append(ACTION_FORWARD)
         elif self.state.direction == 2:
-            actionQueue.append(ACTION_TURN_LEFT)
-            actionQueue.append(ACTION_FORWARD)
+            self.actionQueue.append(ACTION_TURN_LEFT)
+            self.actionQueue.append(ACTION_FORWARD)
         else:
-            actionQueue.append(ACTION_TURN_RIGHT)
-            actionQueue.append(ACTION_TURN_RIGHT)
-            actionQueue.append(ACTION_FORWARD)
-        return actionQueue
+            self.actionQueue.append(ACTION_TURN_RIGHT)
+            self.actionQueue.append(ACTION_TURN_RIGHT)
+            self.actionQueue.append(ACTION_FORWARD)
 
     def moveSouth(self):
-        actionQueue = []
+
         if self.state.direction == 0:
-            actionQueue.append(ACTION_TURN_RIGHT)
-            actionQueue.append(ACTION_TURN_RIGHT)
-            actionQueue.append(ACTION_FORWARD)
+            self.actionQueue.append(ACTION_TURN_RIGHT)
+            self.actionQueue.append(ACTION_TURN_RIGHT)
+            self.actionQueue.append(ACTION_FORWARD)
         elif self.state.direction == 1:
-            actionQueue.append(ACTION_TURN_RIGHT)
-            actionQueue.append(ACTION_FORWARD)
+            self.actionQueue.append(ACTION_TURN_RIGHT)
+            self.actionQueue.append(ACTION_FORWARD)
         elif self.state.direction == 2:
-            actionQueue.append(ACTION_FORWARD)
+            self.actionQueue.append(ACTION_FORWARD)
         else:
-            actionQueue.append(ACTION_TURN_LEFT)
-            actionQueue.append(ACTION_FORWARD)
-        return actionQueue
+            self.actionQueue.append(ACTION_TURN_LEFT)
+            self.actionQueue.append(ACTION_FORWARD)
 
     def moveWest(self):
-        actionQueue = []
         if self.state.direction == 0:
-            actionQueue.append(ACTION_TURN_LEFT)
-            actionQueue.append(ACTION_FORWARD)
+            self.actionQueue.append(ACTION_TURN_LEFT)
+            self.actionQueue.append(ACTION_FORWARD)
         elif self.state.direction == 1:
-            actionQueue.append(ACTION_TURN_LEFT)
-            actionQueue.append(ACTION_TURN_LEFT)
-            actionQueue.append(ACTION_FORWARD)
+            self.actionQueue.append(ACTION_TURN_LEFT)
+            self.actionQueue.append(ACTION_TURN_LEFT)
+            self.actionQueue.append(ACTION_FORWARD)
         elif self.state.direction == 2:
-            actionQueue.append(ACTION_TURN_RIGHT)
-            actionQueue.append(ACTION_FORWARD)
+            self.actionQueue.append(ACTION_TURN_RIGHT)
+            self.actionQueue.append(ACTION_FORWARD)
         else:
-            actionQueue.append(ACTION_FORWARD)
-        return actionQueue
+            self.actionQueue.append(ACTION_FORWARD)
 
     def adjacentNodes(self, currentNode):
         x = currentNode[0]
@@ -315,20 +309,20 @@ class MyVacuumAgent(Agent):
         else:
             self.state.direction += 1
 
-    def pathtoaction(self, path):
+    def pathtoaction(self):
 
-        nextStep = path[0]
+        nextStep = self.path.pop(0)
         nextStepX = nextStep[0]
         nextStepY = nextStep[1]
 
         if nextStepX > self.state.pos_x:
-            return self.moveEast()
+            self.moveEast()
 
         elif nextStepY > self.state.pos_y:
-            return self.moveSouth()
+            self.moveSouth()
 
         elif nextStepX < self.state.pos_x:
-            return self.moveWest()
+            self.moveWest()
 
         elif nextStepY < self.state.pos_y:
-            return self.moveNorth()
+            self.moveNorth()
