@@ -104,7 +104,8 @@ class MyVacuumAgent(Agent):
         self.log = log
         self.actionQueue = []
         self.path = []
-        self.finished = False
+        self.childParentDic = {}
+        self.frontier = []
 
 
     def move_to_random_start_position(self, bump):
@@ -151,8 +152,6 @@ class MyVacuumAgent(Agent):
         ########################
         # START MODIFYING HERE #
         ########################
-        if self.finished and not self.actionQueue and not self.path:
-            return ACTION_NOP
 
         # Max iterations for the agent
         if self.iteration_counter < 1:
@@ -169,7 +168,6 @@ class MyVacuumAgent(Agent):
         # Track position of agent
         self.state.update_position(bump)
 
-
         if bump:
             # Get an xy-offset pair based on where the agent is facing
             offset = [(0, -1), (1, 0), (0, 1), (-1, 0)][self.state.direction]
@@ -177,15 +175,15 @@ class MyVacuumAgent(Agent):
             # Mark the tile at the offset from the agent as a wall (since the agent bumped into it)
             self.state.update_world(self.state.pos_x + offset[0], self.state.pos_y + offset[1], AGENT_STATE_WALL)
 
-        # Changed if to elif
         # Update perceived state of current tile
-        elif dirt:
+        if dirt:
             self.state.update_world(self.state.pos_x, self.state.pos_y, AGENT_STATE_DIRT)
         else:
             self.state.update_world(self.state.pos_x, self.state.pos_y, AGENT_STATE_CLEAR)
 
         # Debug
         self.state.print_world_debug()
+
 
         if dirt:
             self.log("DIRT -> choosing SUCK action!")
@@ -194,9 +192,6 @@ class MyVacuumAgent(Agent):
 
         if not self.actionQueue and not self.path:
             self.breadthFirstSearch()
-            if not self.path:
-                self.finished = True
-                self.breadthFirstSearch()
 
         if self.path and not self.actionQueue:
             step = self.path.pop(0)
@@ -217,30 +212,42 @@ class MyVacuumAgent(Agent):
                 self.state.direction = (self.state.direction + 1) % 4
             return self.actionQueue.pop(0)
 
-    def pathFinder(self, goal, childParentDic):
-        goalFind = childParentDic[goal]
-        while goalFind is not None:
-            self.path.append(self.getDir(goalFind, goal))
-            goal = goalFind
-            goalFind = childParentDic[goal]
-        return
+        else:
+            return ACTION_NOP
 
-    # goal = unkown normally and home when board is cleared
-    def breadthFirstSearch(self):
-        frontier = []
-        childParentDic = {}
-        currentNode = (self.state.pos_x, self.state.pos_y)
-        childParentDic[currentNode] = None
-        frontier.append(currentNode)
-        goal = AGENT_STATE_UNKNOWN
-        if self.finished:
-            goal = AGENT_STATE_HOME
-        while frontier:
-            parent = frontier.pop(0)
-            if self.state.world[parent[0]][parent[1]] is goal:
-                self.pathFinder(parent, childParentDic)
+    def pathFinder(self, goal, current):
+        goalFind = self.childParentDic[goal]
+        homeFind = self.childParentDic[current]
+        goalList = []
+        counter = 0
+        while True:
+            if goalFind is not None:
+                self.path.insert(len(self.path)-counter, self.getDir(goalFind, goal))
+                goal = goalFind
+                goalList.append(goalFind)
+                goalFind = self.childParentDic[goal]
+            if homeFind in goalList or homeFind == goalFind:
                 return
-            self.adjacentNodes(parent, childParentDic, frontier)
+            if homeFind is not None:
+                self.path.insert(counter, self.getDir(current, homeFind))
+                current = homeFind
+                homeFind = self.childParentDic[current]
+            if homeFind == goal or homeFind in goalList:
+                return
+            counter += 1
+
+    # Find unknown nodes
+    def breadthFirstSearch(self):
+        currentNode = (self.state.pos_x, self.state.pos_y)
+        if not self.frontier:
+            self.frontier.append(currentNode)
+            self.childParentDic[currentNode] = None
+        self.adjacentNodes(currentNode)
+        while self.frontier:
+            parent = self.frontier.pop()
+            if self.state.world[parent[0]][parent[1]] is AGENT_STATE_UNKNOWN:
+                self.pathFinder(parent, currentNode)
+                return
 
         return
 
@@ -301,14 +308,14 @@ class MyVacuumAgent(Agent):
         else:
             self.actionQueue.append(ACTION_FORWARD)
 
-    def adjacentNodes(self, currentNode, childParentDic, frontier):
+    def adjacentNodes(self, currentNode):
         x = currentNode[0]
         y = currentNode[1]
         adjacentNodes = [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]
         for node in adjacentNodes:
-            if node not in childParentDic.keys() and self.state.world[node[0]][node[1]] is not AGENT_STATE_WALL:
-                childParentDic[node] = currentNode
-                frontier.append(node)
+            if node not in self.childParentDic.keys() and node not in self.childParentDic.values() and self.state.world[node[0]][node[1]] is not AGENT_STATE_WALL:
+                self.childParentDic[node] = currentNode
+                self.frontier.append(node)
 
     def update_direction(self):
         # Update Direction when turning

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0bdfd612-bd67-4b67-b666-3f97015397f5" name="Default Changelist" comment="" />
+    <list default="true" id="0bdfd612-bd67-4b67-b666-3f97015397f5" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,8 +15,17 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lab1/myvacuumagent.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="237">
-              <caret line="237" column="39" selection-start-line="237" selection-start-column="25" selection-end-line="237" selection-end-column="39" />
+            <state relative-caret-position="184">
+              <caret line="145" column="44" lean-forward="true" selection-start-line="145" selection-start-column="44" selection-end-line="145" selection-end-column="44" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lab1/backup.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="5145">
+              <caret line="343" selection-start-line="343" selection-end-line="343" />
             </state>
           </provider>
         </entry>
@@ -22,7 +33,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lab1/liuvacuum.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
+            <state relative-caret-position="1035">
               <caret line="70" selection-start-line="70" selection-end-line="70" />
               <folding>
                 <element signature="e#0#33#0" expanded="true" />
@@ -34,8 +45,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file:///usr/lib/python3.6/tkinter/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="230">
-              <caret line="750" selection-start-line="750" selection-end-line="750" />
+            <state relative-caret-position="19185">
+              <caret line="1282" selection-start-line="1282" selection-end-line="1282" />
             </state>
           </provider>
         </entry>
@@ -43,8 +54,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/agents.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
-              <caret line="307" selection-start-line="307" selection-end-line="307" />
+            <state relative-caret-position="539">
+              <caret line="305" selection-start-line="305" selection-end-line="305" />
             </state>
           </provider>
         </entry>
@@ -52,7 +63,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lab1/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
+            <state relative-caret-position="3660">
               <caret line="249" selection-start-line="249" selection-end-line="249" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
@@ -62,6 +73,13 @@
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -73,11 +91,15 @@
       <find>path</find>
       <find>return</find>
       <find>childParentDic</find>
+      <find>frontier</find>
+      <find>self.frontier</find>
     </findStrings>
     <replaceStrings>
       <replace>self.actionQueue</replace>
       <replace>self.path</replace>
       <replace>self.childParentDic</replace>
+      <replace>self.frontier</replace>
+      <replace>frontier</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -87,6 +109,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/utils.py" />
+        <option value="$PROJECT_DIR$/lab1/backup.py" />
         <option value="$PROJECT_DIR$/lab1/myvacuumagent.py" />
       </list>
     </option>
@@ -95,7 +118,7 @@
     <option name="x" value="-1" />
     <option name="y" value="28" />
     <option name="width" value="1922" />
-    <option name="height" value="1145" />
+    <option name="height" value="1025" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -124,7 +147,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -139,6 +162,48 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.run_lab1">
+    <configuration name="backup" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="TDDC17_lab1_python" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/lab1" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/lab1/backup.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="myvacuumagent" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="TDDC17_lab1_python" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/lab1" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/lab1/myvacuumagent.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="randomvacuumagent" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="TDDC17_lab1_python" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -184,10 +249,14 @@
     <list>
       <item itemvalue="Python.randomvacuumagent" />
       <item itemvalue="Python.run_lab1" />
+      <item itemvalue="Python.backup" />
+      <item itemvalue="Python.myvacuumagent" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.run_lab1" />
+        <item itemvalue="Python.myvacuumagent" />
+        <item itemvalue="Python.backup" />
         <item itemvalue="Python.randomvacuumagent" />
       </list>
     </recent_temporary>
@@ -206,22 +275,22 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="28" width="1922" height="1145" extended-state="6" />
+    <frame x="-1" y="28" width="1922" height="1025" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.10121244" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.10384818" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32940018" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4960464" visible="true" weight="0.18977384" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4960464" weight="0.35791543" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.48919347" visible="true" weight="0.32441473" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.48919347" weight="0.2742475" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50395364" side_tool="true" visible="true" weight="0.18977384" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32991612" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.51080656" side_tool="true" visible="true" weight="0.32441473" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -233,14 +302,14 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32940018" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.18977384" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.35791543" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4928835" weight="0.1891892" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.4928835" visible="true" weight="0.3578751" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5071165" side_tool="true" visible="true" weight="0.3578751" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -252,13 +321,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/lab1/myvacuumagent.py</url>
-          <line>236</line>
-          <option name="timeStamp" value="17" />
+          <line>238</line>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/lab1/myvacuumagent.py</url>
-          <line>194</line>
-          <option name="timeStamp" value="18" />
+          <line>220</line>
+          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -314,9 +383,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/lab1/backup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5145">
+          <caret line="343" selection-start-line="343" selection-end-line="343" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/lab1/liuvacuum.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
+        <state relative-caret-position="1035">
           <caret line="70" selection-start-line="70" selection-end-line="70" />
           <folding>
             <element signature="e#0#33#0" expanded="true" />
@@ -324,16 +400,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/agents.py">
+    <entry file="file:///usr/lib/python3.6/tkinter/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="307" selection-start-line="307" selection-end-line="307" />
+        <state relative-caret-position="19185">
+          <caret line="1282" selection-start-line="1282" selection-end-line="1282" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lab1/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
+        <state relative-caret-position="3660">
           <caret line="249" selection-start-line="249" selection-end-line="249" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
@@ -341,17 +417,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/lib/python3.6/tkinter/__init__.py">
+    <entry file="file://$PROJECT_DIR$/agents.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="750" selection-start-line="750" selection-end-line="750" />
+        <state relative-caret-position="539">
+          <caret line="305" selection-start-line="305" selection-end-line="305" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lab1/myvacuumagent.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="237" column="39" selection-start-line="237" selection-start-column="25" selection-end-line="237" selection-end-column="39" />
+        <state relative-caret-position="184">
+          <caret line="145" column="44" lean-forward="true" selection-start-line="145" selection-start-column="44" selection-end-line="145" selection-end-column="44" />
         </state>
       </provider>
     </entry>
