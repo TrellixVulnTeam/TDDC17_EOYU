@@ -151,6 +151,7 @@ class MyVacuumAgent(Agent):
         ########################
         # START MODIFYING HERE #
         ########################
+        # If we are finished return no action
         if self.finished and not self.actionQueue and not self.path:
             return ACTION_NOP
 
@@ -194,10 +195,12 @@ class MyVacuumAgent(Agent):
 
         if not self.actionQueue and not self.path:
             self.breadthFirstSearch()
+            # If we couldn't find any unkown then go home
             if not self.path:
                 self.finished = True
                 self.breadthFirstSearch()
 
+        # Take first element from path translate it to actions and fill the actionQueue
         if self.path and not self.actionQueue:
             step = self.path.pop(0)
             if step == AGENT_DIRECTION_NORTH:
@@ -209,6 +212,7 @@ class MyVacuumAgent(Agent):
             else:
                 self.moveWest()
 
+        # Update direction depending on action taken and then perform action
         if self.actionQueue:
             self.state.last_action = self.actionQueue[0]
             if self.actionQueue[0] is ACTION_TURN_LEFT:
@@ -217,6 +221,7 @@ class MyVacuumAgent(Agent):
                 self.state.direction = (self.state.direction + 1) % 4
             return self.actionQueue.pop(0)
 
+    # Fill path with directions to get to goal node
     def pathFinder(self, goal, childParentDic):
         goalFind = childParentDic[goal]
         while goalFind is not None:
@@ -225,25 +230,26 @@ class MyVacuumAgent(Agent):
             goalFind = childParentDic[goal]
         return
 
-    # goal = unkown normally and home when board is cleared
+    # find unknown nodes
     def breadthFirstSearch(self):
         frontier = []
         childParentDic = {}
         currentNode = (self.state.pos_x, self.state.pos_y)
         childParentDic[currentNode] = None
         frontier.append(currentNode)
-        goal = AGENT_STATE_UNKNOWN
-        if self.finished:
-            goal = AGENT_STATE_HOME
         while frontier:
             parent = frontier.pop(0)
-            if self.state.world[parent[0]][parent[1]] is goal:
+            if self.finished and parent == (1, 1):
+                self.pathFinder(parent, childParentDic)
+                return
+            if self.state.world[parent[0]][parent[1]] is AGENT_STATE_UNKNOWN:
                 self.pathFinder(parent, childParentDic)
                 return
             self.adjacentNodes(parent, childParentDic, frontier)
 
         return
 
+    # Fill actionQueue with actions to make agent move north
     def moveNorth(self):
         if self.state.direction == 0:
             self.actionQueue.append(ACTION_FORWARD)
@@ -301,6 +307,7 @@ class MyVacuumAgent(Agent):
         else:
             self.actionQueue.append(ACTION_FORWARD)
 
+    # Check adjacent nodes and update dictionary and frontier
     def adjacentNodes(self, currentNode, childParentDic, frontier):
         x = currentNode[0]
         y = currentNode[1]
@@ -310,18 +317,10 @@ class MyVacuumAgent(Agent):
                 childParentDic[node] = currentNode
                 frontier.append(node)
 
-    def update_direction(self):
-        # Update Direction when turning
-        if self.state.direction == 3:
-            self.state.direction = 0
-        else:
-            self.state.direction += 1
-
+    # Get direction needed to get from one node to another
     def getDir(self, nFrom, nTo):
-
         deltaX = nTo[0] - nFrom[0]
         deltay = nTo[1] - nFrom[1]
-
         if (deltay == -1):
             return AGENT_DIRECTION_NORTH
         elif (deltaX == 1):
