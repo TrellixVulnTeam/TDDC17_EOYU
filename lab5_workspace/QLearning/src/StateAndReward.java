@@ -1,7 +1,11 @@
 public class StateAndReward {
 
 	private static double maxAngle = Math.PI;
-	private static int angleStates = 8;
+	private static int angleStates = 10;
+	private static int vxStates = 7;
+	private static int maxVx = 25;
+	private static int vyStates = 8;
+	private static int maxVy = 30;
 	
 	/* State discretization function for the angle controller */
 	public static String getStateAngle(double angle, double vx, double vy) {
@@ -23,21 +27,25 @@ public class StateAndReward {
 	public static String getStateHover(double angle, double vx, double vy) {
 
 		/* TODO: IMPLEMENT THIS FUNCTION */
+		String angleState = getStateAngle(angle, vx, vy);
+		String vxState = String.valueOf(discretize(vx, vxStates, -maxVx, maxVx));
+		String vyState = String.valueOf(discretize(vy, vyStates, -maxVy, maxVy));
 
-		String state = "OneStateToRuleThemAll2";
-		
-		return state;
+		return angleState + ", " + vxState + ", " + vyState;
 	}
 
 	/* Reward function for the full hover controller */
-	public static double getRewardHover(double angle, double vx, double vy) {
+	public static double getRewardHover(double angle, double vx, double vy, double y) {
 
-		double reward = 0;
-
+		double angleReward = getRewardAngle(angle, vx ,vy);
+		//vx ska vara 0
+		double vxReward = Math.pow(20*(1-Math.abs(vx)/maxVx),2);
+		//vy ska vara ???
+		double vyReward = Math.pow(30*(1-Math.abs(vy)/maxVy),2);
 		/* TODO: IMPLEMENT THIS FUNCTION */
 		
 		
-		return reward;
+		return angleReward + vxReward + vyReward;
 	}
 
 	// ///////////////////////////////////////////////////////////
