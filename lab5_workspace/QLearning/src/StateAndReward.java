@@ -35,12 +35,12 @@ public class StateAndReward {
 	}
 
 	/* Reward function for the full hover controller */
-	public static double getRewardHover(double angle, double vx, double vy, double y) {
+	public static double getRewardHover(double angle, double vx, double vy) {
 
 		double angleReward = getRewardAngle(angle, vx ,vy);
 		//vx ska vara 0
 		double vxReward = Math.pow(20*(1-Math.abs(vx)/maxVx),2);
-		//vy ska vara ???
+		//vy ska vara 0
 		double vyReward = Math.pow(30*(1-Math.abs(vy)/maxVy),2);
 		/* TODO: IMPLEMENT THIS FUNCTION */
 		

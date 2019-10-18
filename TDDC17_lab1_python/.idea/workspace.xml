@@ -3,6 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="0bdfd612-bd67-4b67-b666-3f97015397f5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab1/myvacuumagent.py" beforeDir="false" afterPath="$PROJECT_DIR$/lab1/myvacuumagent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab5_workspace/QLearning/src/QLearningController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lab5_workspace/QLearning/src/QLearningController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab5_workspace/QLearning/src/StateAndReward.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lab5_workspace/QLearning/src/StateAndReward.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,8 +18,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lab1/myvacuumagent.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="231">
-              <caret line="300" column="53" lean-forward="true" selection-start-line="300" selection-start-column="53" selection-end-line="300" selection-end-column="53" />
+            <state relative-caret-position="366">
+              <caret line="204" column="33" selection-start-line="204" selection-start-column="33" selection-end-line="204" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -280,19 +283,19 @@
     <frame x="-1" y="28" width="1922" height="1145" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.10384818" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.10332103" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32940018" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.48813915" visible="true" weight="0.32350048" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.48603058" weight="0.32350048" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.48866633" weight="0.273353" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32991612" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.51186085" side_tool="true" visible="true" weight="0.32350048" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5139694" side_tool="true" visible="true" weight="0.32251722" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -317,17 +320,6 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout-to-restore>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/lab1/myvacuumagent.py</url>
-          <line>199</line>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/lab1/reactivevacuumagent.py">
@@ -382,8 +374,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lab1/myvacuumagent.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="300" column="53" lean-forward="true" selection-start-line="300" selection-start-column="53" selection-end-line="300" selection-end-column="53" />
+        <state relative-caret-position="366">
+          <caret line="204" column="33" selection-start-line="204" selection-start-column="33" selection-end-line="204" selection-end-column="33" />
         </state>
       </provider>
     </entry>

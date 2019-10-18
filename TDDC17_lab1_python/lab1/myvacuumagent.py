@@ -202,7 +202,7 @@ class MyVacuumAgent(Agent):
 
         # Take first element from path translate it to actions and fill the actionQueue
         if self.path and not self.actionQueue:
-            step = self.path.pop(0)
+            step = self.path.pop()
             if step == AGENT_DIRECTION_NORTH:
                 self.moveNorth()
             elif step == AGENT_DIRECTION_EAST:
@@ -229,7 +229,7 @@ class MyVacuumAgent(Agent):
             goal = goalFind
             goalFind = childParentDic[goal]
         return
-
+ #childparentdic[child: parent
     # find unknown nodes
     def breadthFirstSearch(self):
         frontier = []
@@ -248,6 +248,17 @@ class MyVacuumAgent(Agent):
             self.adjacentNodes(parent, childParentDic, frontier)
 
         return
+
+        # Check adjacent nodes and update dictionary and frontier
+
+    def adjacentNodes(self, currentNode, childParentDic, frontier):
+        x = currentNode[0]
+        y = currentNode[1]
+        adjacentNodes = [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]
+        for node in adjacentNodes:
+            if node not in childParentDic.keys() and self.state.world[node[0]][node[1]] is not AGENT_STATE_WALL:
+                childParentDic[node] = currentNode
+                frontier.append(node)
 
     # Fill actionQueue with actions to make agent move north
     def moveNorth(self):
@@ -306,16 +317,6 @@ class MyVacuumAgent(Agent):
             self.actionQueue.append(ACTION_FORWARD)
         else:
             self.actionQueue.append(ACTION_FORWARD)
-
-    # Check adjacent nodes and update dictionary and frontier
-    def adjacentNodes(self, currentNode, childParentDic, frontier):
-        x = currentNode[0]
-        y = currentNode[1]
-        adjacentNodes = [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]
-        for node in adjacentNodes:
-            if node not in childParentDic.keys() and self.state.world[node[0]][node[1]] is not AGENT_STATE_WALL:
-                childParentDic[node] = currentNode
-                frontier.append(node)
 
     # Get direction needed to get from one node to another
     def getDir(self, nFrom, nTo):
